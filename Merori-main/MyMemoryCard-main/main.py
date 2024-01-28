@@ -7,8 +7,11 @@ app = QApplication([]) #сторюємо віконний додаток
 from window import * 
 from menu import *
 
+
 class Question():
     current = None
+    count_ans = 0
+    count_right_ans = 0
 
     def __init__(self, text , right_ans, ans2 , ans3 , ans5
                  ):
@@ -46,7 +49,9 @@ def Next_Question():
 
 
 def check_answer():
+    Question.count_ans += 1
     if radio_list[0].isChecked():
+        Question.count_right_ans += 1
         result_text.setText("Правельно")
     else:
         result_text.setText("Неправельно")
@@ -74,6 +79,13 @@ def asnwer_click():
         answer_btn.setText("Відповісти")
 
 def show_menu():
+    count_lb.setText("Разів відповіли " + str(Question.count_ans))
+    right_lb.setText("Правельній відповідей" + str(Question.count_right_ans))
+    try:
+        succes =  round(Question.count_right_ans/ Question.count_ans * 100 , 2)
+    except:
+        succes = 0
+    succes_lb.setText("Успішність" + str(succes))
     win.hide()
     menu_win.show()
 
